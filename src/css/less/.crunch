@@ -1,0 +1,67 @@
+{
+	"files": {
+		"input-fields.less": {
+			"engines": [
+				{
+					"compiler": "less",
+					"output": "../input-fields.css",
+					"options": {
+						"compress": true,
+						"ieCompat": false,
+						"strictMath": false,
+						"strictUnits": false,
+						"javascriptEnabled": false,
+						"sourceMap": false,
+						"sourcemap": true
+					}
+				}
+			],
+			"sources": [
+				"config.less",
+				"input-fields.less"
+			]
+		},
+		"reset.less": {
+			"engines": [
+				{
+					"compiler": "less",
+					"output": "../reset.css",
+					"options": {
+						"compress": true,
+						"ieCompat": false,
+						"strictMath": false,
+						"strictUnits": false,
+						"javascriptEnabled": false,
+						"sourceMap": false,
+						"sourcemap": true
+					}
+				}
+			],
+			"sources": [
+				"reset.less"
+			]
+		},
+		"site.less": {
+			"engines": [
+				{
+					"compiler": "less",
+					"output": "../site.css",
+					"options": {
+						"compress": true,
+						"ieCompat": false,
+						"strictMath": false,
+						"strictUnits": false,
+						"javascriptEnabled": false,
+						"sourceMap": false,
+						"sourcemap": true
+					}
+				}
+			],
+			"sources": [
+				"site.less",
+				"reset.less",
+				"config.less"
+			]
+		}
+	}
+}

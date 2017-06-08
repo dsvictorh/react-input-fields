@@ -1,0 +1,26 @@
+{
+	"files": {
+		"site.less": {
+			"engines": [
+				{
+					"compiler": "less",
+					"output": "../site.css",
+					"options": {
+						"compress": true,
+						"ieCompat": false,
+						"strictMath": false,
+						"strictUnits": false,
+						"javascriptEnabled": false,
+						"sourceMap": false,
+						"sourcemap": true
+					}
+				}
+			],
+			"sources": [
+				"config.less",
+				"reset.less",
+				"site.less"
+			]
+		}
+	}
+}

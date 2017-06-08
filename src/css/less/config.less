@@ -1,0 +1,191 @@
+//Fonts
+@font-primary: 'Open Sans', sans-serif;
+@font-awesome: 'Font Awesome';
+@font-face {
+	font-family: @font-awesome;
+	src: url('fonts/fontawesome.eot');
+	src: url('fonts/fontawesome.eot?#iefix') format('embedded-opentype'),
+	url('fonts/fontawesome.svg') format('svg'),
+	url('fonts/fontawesome.woff') format('woff');
+}
+
+//Color Palette
+@color-white: #fff;
+@color-black: #000;
+@color-danger: #b92525;
+@color-warning: #dcbc13;
+@color-success: #1ba727;
+@color-info: #056fcc;
+
+//Media Queries
+.media-for-width(@width, @styles){
+	@media screen and (min-width: @width) {
+        @styles();
+	}
+}
+
+.media-for-device(@width, @styles){
+	@media screen and (min-device-width: @width) {
+        @styles();
+	}
+}
+.media-for(@width, @styles) {
+	@media screen and (min-width: @width) and (min-device-width: @width) {
+        @styles();
+	}
+}
+
+//Functions
+.clear(@clear){
+    &:after{
+        display: block;
+        clear: @clear;
+        content: '';
+    }
+}
+
+.gradient(@start, @color-from, @color-to){
+    background-image: -webkit-linear-gradient(@start, @color-from, @color-to);
+    
+    &when(@start = top){
+        background-image: linear-gradient(to bottom, @color-from, @color-to);
+    }
+
+    &when(@start = bottom){
+        background-image: linear-gradient(to top, @color-from, @color-to);
+    }
+
+    &when(@start = left){
+        background-image: linear-gradient(to right, @color-from, @color-to);
+    }
+
+    &when(@start = right){
+        background-image: linear-gradient(to left, @color-from, @color-to);
+    }
+}
+
+.transition(@value) {
+	-webkit-transition: @value;
+	-moz-transition: @value;
+	transition: @value;
+}
+
+.transform(@value) {
+	-webkit-transform: @value;
+	-moz-transform: @value;
+	transform: @value;
+}
+
+.appearance(@value){
+    -webkit-appearance: @value;
+    -moz-appearance: @value;
+    appearance: @value;
+}
+
+.user-select(@value) {
+	-webkit-user-select: @value;
+	-moz-user-select: @value;
+	-khtml-user-select: @value;
+	-ms-user-select: @value;
+}
+
+.filter(@value){
+    -webkit-filter: @value;
+    filter: @value;
+}
+
+.animation(@name, @duration: null, @delay: null, @direction: null, @iterationCount: null, @fillMode: null, @timingFunction: null){
+	-moz-animation-name: @name;
+	-webkit-animation-name: @name;
+	animation-name: @name;
+
+	&when not (@duration = null) {
+		-moz-animation-duration: @duration;
+		-webkit-animation-duration: @duration;
+		animation-duration: @duration;
+	}
+
+	&when not (@delay = null) {
+		-moz-animation-delay: @delay;
+		-webkit-animation-delay: @delay;
+		animation-delay: @delay;
+	}
+
+	&when not (@direction = null) {
+		-moz-animation-direction: @direction;
+		-webkit-animation-direction: @direction;
+		animation-direction: @direction;
+	}
+
+	&when not (@iterationCount = null) {
+		-moz-animation-iteration-count: @iterationCount;
+		-webkit-animation-iteration-count: @iterationCount;
+		animation-iteration-count: @iterationCount;
+	}
+
+	&when not (@fillMode = null) {
+		-moz-animation-fill-mode: @fillMode;
+		-webkit-animation-fill-mode: @fillMode;
+		animation-fill-mode: @fillMode;
+	}
+
+	&when not (@timingFunction = null) {
+		-moz-animation-timing-function: @timingFunction;
+		-webkit-animation-timing-function: @timingFunction;
+		animation-timing-function: @timingFunction;
+	}
+}
+
+.keyframes(@name, @structure){
+    @-moz-keyframes @name{
+        @structure();
+    }
+
+    @-webkit-keyframes @name{
+        @structure();
+    }
+
+    @keyframes @name{
+        @structure();
+    }
+};
+
+.awesome-icon(@charcode, @styles: null, @position: after){
+	&when (@position = after) {
+		&:after {
+			font-family: @font-awesome;
+			content: @charcode;
+			font-style: normal;
+			
+			&when not(@styles = null){
+				@styles();
+			}
+		}
+	}
+
+	&when (@position = before) {
+		&:before {
+			font-family: @font-awesome;
+			content: @charcode;
+			font-style: normal;
+			
+			&when not(@styles = null){
+				@styles();
+			}
+		}
+	}
+}
+
+.awesome-icon-override(@styles, @position: after){
+	&when (@position = after) {
+		&:after {			
+			@styles();
+		}
+	}
+
+	&when (@position = before) {
+		&:after {			
+			@styles();
+		}
+	}
+}
