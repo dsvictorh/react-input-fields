@@ -14,8 +14,8 @@ class App extends Component{
 		}	
 	}
 
-	resetPerson = () => {
-		this.setState({person: {}});
+	resetPerson = (person) => {
+		this.setState({person: person || {}});
 	}
 
 	setPerson = (person) => {
@@ -30,7 +30,7 @@ class App extends Component{
 		return(
 			<div>
 				<AddEditPerson person={this.state.person} onSubmit={this.resetPerson} onCancel={this.resetPerson} />
-				<PersonList edit={this.setPerson} remove={this.removePerson} />
+				<PersonList edit={this.setPerson} edittingPerson={this.state.person} remove={this.removePerson} />
 			</div>
 		)
 	}

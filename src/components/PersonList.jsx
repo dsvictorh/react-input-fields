@@ -9,6 +9,7 @@ import InputFields from './InputFields';
 class PersonList extends Component{
 	static propTypes = {
 		persons: PropTypes.arrayOf(PropTypes.object).isRequired,
+		edittingPerson: PropTypes.object,
 		edit: PropTypes.func,
 		remove: PropTypes.func,
 	}
@@ -18,8 +19,9 @@ class PersonList extends Component{
 	}
 
 	render(){
-		const { 
+		const {
 			persons,
+			edittingPerson,
 			edit,
 			remove
 		} = this.props;
@@ -39,7 +41,7 @@ class PersonList extends Component{
 										edit && <InputFields.InputButton text={'Edit'} onClick={() => edit(person)}  />
 									}
 									{
-										remove && <InputFields.InputButton text={'Delete'} onClick={() => remove(person.id)}  />
+										remove && <InputFields.InputButton disabled={edittingPerson && edittingPerson.id === person.id} text={'Delete'} onClick={() => remove(person.id)}  />
 									}
 								</li>
 							)

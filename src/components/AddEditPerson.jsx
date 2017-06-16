@@ -11,12 +11,7 @@ class AddEditPerson extends Component{
 		super(props);
 		
 		this.state = {
-			name: '',
-			lastName: '',
-			gender: '0',
-			active: false,
-			birthdate: null,
-			loading: false,
+			...AddEditPerson.personDefault
 		}
 	}
 
@@ -31,16 +26,19 @@ class AddEditPerson extends Component{
 		onCancel: () => void(0)
 	}
 
+	static personDefault = {
+		name: '',
+		lastName: '',
+		gender: '0',
+		active: false,
+		birthdate: new Date(),
+		loading: false,
+	}
+
 	componentWillReceiveProps(nextProps) {
 		if(this.props.person !== nextProps.person){
 			const { name, lastName, gender, active, birthdate } = nextProps.person;
-			this.setState({
-				name,
-				lastName,
-				gender,
-				active,
-				birthdate,
-			});
+			this.setState({ name, lastName, gender, active, birthdate });
 		}
 	}
 
@@ -51,10 +49,11 @@ class AddEditPerson extends Component{
 				lastName: '',
 				gender: '0',
 				active:  false,
-				birthdate: null,
+				birthdate: new Date(),
 			});
 			this.props.removeErrors('name');
 			this.props.removeErrors('lastName');
+			this.props.removeErrors('birthdate');
 		}
 	}
 
@@ -76,6 +75,7 @@ class AddEditPerson extends Component{
 		}
 		else if(this.state.birthdate > new Date()){
 			this.props.addErrors('birthdate', ['Date of Birth cannot be greater than current date']);
+			valid = false;
 		}
 
 		if(valid){
@@ -142,7 +142,8 @@ class AddEditPerson extends Component{
 						inputId={'birth-date'} 
 						label={'Date of Birth'} 
 						value={this.state.birthdate}
-						onChange={(value) => {  this.setState({ birthdate: value }); removeErrors('birthdate'); }}
+						format={'MM/DD/YYYY'}
+						onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
 						errors={errors['birthdate']}
 					/>
 					<InputFields.InputButton 
@@ -155,7 +156,7 @@ class AddEditPerson extends Component{
 						text={'Cancel'} 
 						className={'danger'} 
 						disabled={this.state.loading} 
-						onClick={() => {this.resetForm(true); onCancel(person);} } 
+						onClick={() => {this.resetForm(true); onCancel(AddEditPerson.personDefault);} } 
 					/>
 				</form>
 			</div>

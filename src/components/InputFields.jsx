@@ -12,3 +12,8 @@ export default {
 	InputCheckbox, 
 	InputDate 
 };
+
+/* FORCE CHANGE EVENT
+var ev = new Event('input', { bubbles: true });
+document.getElementById('name').dispatchEvent(ev);
+*/

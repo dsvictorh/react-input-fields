@@ -63,8 +63,6 @@
 		}
 	}
 
-	
-
 	input:not([type="checkbox"]), textarea, select{
 		display: inline-block;
 		width: 100%;
@@ -148,6 +146,11 @@
 	.errors{
 		color: @color-danger;
 	}
+
+	.react-datepicker__input-container{
+		display: block;
+		position: static;
+	}
 }
 
 .input-button{
@@ -180,4 +183,22 @@
 	    	background: fade(@color-danger, 85%);
 	    }
     }
+}
+
+//Datepicker customization
+body .react-datepicker__tether-element-attached-bottom.react-datepicker__tether-element{
+	margin-top: 0;
+}
+
+body .react-datepicker__current-month{
+	font-size: 1.4rem;
+}
+
+body .react-datepicker__day-name, body .react-datepicker__day{
+	width: 4rem;
+	line-height: 4rem;
+}
+
+body .react-datepicker{
+	font-size: 1.5rem;
 }
