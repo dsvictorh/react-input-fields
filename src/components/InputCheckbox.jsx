@@ -56,7 +56,7 @@ class InputCheckbox extends Component{
 						disabled={disabled}
 						name={inputId}
 						id={inputId}
-						onChange={(e) => { onChange(e.target.value); }}
+						onChange={(e) => { onChange(e.target.checked); }}
 						checked={value || false}
 					/>
 					<label 

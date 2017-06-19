@@ -83,7 +83,7 @@ class AddEditPerson extends Component{
 			setTimeout(() => {
 				const { name, lastName, gender, active, birthdate } = this.state;
 				const { id } = this.props.person;
-				this.props.setPerson({ id, name, lastName, active, gender: parseInt(gender), birthdate });
+				this.props.setPerson({ id, name, lastName, active, gender: parseInt(gender, 10), birthdate });
 				this.setState({ loading: false });
 				this.props.onSubmit(this.props.person);
 				this.resetForm();
@@ -95,7 +95,6 @@ class AddEditPerson extends Component{
 
 	render(){
 		const { 
-			person,
 			errors,
 			removeErrors,
 			onCancel

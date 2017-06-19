@@ -51,7 +51,7 @@
 		font-size: 1.6rem;
 
 		&:hover{
-			+ input:not([type="checkbox"]), textarea, select{
+			+ input:not([type="checkbox"]), textarea, + .select input{
 				border-color: @color-success;
 			}
 		}
@@ -63,7 +63,7 @@
 		}
 	}
 
-	input:not([type="checkbox"]), textarea, select{
+	input:not([type="checkbox"]), textarea{
 		display: inline-block;
 		width: 100%;
 		box-sizing: border-box;
@@ -72,47 +72,82 @@
 		margin: 0;
 		border-radius: 4px;
 		border: solid 1px fade(@color-black, 20%);
+		background: @color-white;
 		.transition(border-color 0.15s linear);
 
-		&:hover, &:focus{
+		&:hover:not(:disabled), &:focus:not(:disabled), &.focus:not(:disabled){
 			border-color: @color-success;
+		}
+
+		&:disabled{
+			opacity: 0.7;
+			cursor: not-allowed;	
+			.user-select(none);
+		}
+	}
+
+	.select{
+		position: relative;
+
+		input{
+			cursor: pointer;
+			color: transparent;
+			text-shadow: 0 0 0 @color-black;
+			.user-select(none);
+			.selection({
+				background: @color-white;
+				color: transparent;
+			});
+		}
+
+		.options{
+			position: absolute;
+			cursor: pointer;
+			width: 100%;
+			top: 100%;
+			border: solid 1px fade(@color-black, 20%);
+			background: @color-white;
+			border-radius: 4px;
+			box-sizing: border-box;
+
+			div{
+				font-size: 1.5rem;
+				padding: 5px;
+				box-sizing: border-box;
+				@transition: background 0.2s linear, color 0.2s linear;
+				.transition(@transition);
+
+				&:hover, &:focus{
+					background: fade(@color-info, 50%);
+					color: @color-white;
+				}
+
+				&.selected{
+					background: @color-info;
+					color: @color-white;
+				}
+			}
 		}
 	}
 
 	select{
-		padding: 5px 0;
-		cursor: pointer;
+		display: none;
 	}
 
 	input[type="checkbox"]{
 		display: none;
 
-		+ label{
+		&:not(:disabled) + label{
 			font-size: 1.5rem;
 
 			&:hover, &:focus{
 				i{
 					border-color: @color-success;
 				}
-			}
-
-			i{
-				display: inline-block;
-				width: 1.6rem;
-				height: 1.6rem;
-				font-size: 1.4rem;
-				background: @color-white;
-				border-radius: 2px;
-				margin: 0 5px -1px 0;
-				border: solid 1px fade(@color-black, 20%);
-				vertical-align: bottom;
-				text-align: center;
-				@transition: border-color 0.15s linear, color 0.25s linear;
-				.transition(@transition);
-			}		
+			}	
 		}
 
-		&:checked + label{
+		&:checked:not(:disabled) + label{
 			i{
 				color: @color-success;
 				border-color: @color-success;
@@ -127,6 +162,30 @@
 					border-color: @color-danger;
 					.awesome-icon('\f00d');
 				}
+			}
+
+
+		}
+
+		&:disabled + label{
+			opacity: 0.7;
+			cursor: not-allowed;	
+		}
+
+		+ label{
+			i{
+				display: inline-block;
+				width: 1.6rem;
+				height: 1.6rem;
+				font-size: 1.4rem;
+				background: @color-white;
+				border-radius: 2px;
+				margin: 0 5px -1px 0;
+				border: solid 1px fade(@color-black, 20%);
+				vertical-align: bottom;
+				text-align: center;
+				@transition: border-color 0.15s linear, color 0.25s linear;
+				.transition(@transition);
 			}
 		}
 	}

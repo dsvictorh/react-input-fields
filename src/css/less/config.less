@@ -64,6 +64,20 @@
     }
 }
 
+.selection(@styles){
+	&::-webkit-selection{
+		@styles();
+	}
+
+	&::-moz-selection{
+		@styles();
+	}
+
+	&::selection{
+		@styles();
+	}
+}
+
 .transition(@value) {
 	-webkit-transition: @value;
 	-moz-transition: @value;
@@ -87,6 +101,7 @@
 	-moz-user-select: @value;
 	-khtml-user-select: @value;
 	-ms-user-select: @value;
+	user-select: @value;
 }
 
 .filter(@value){
