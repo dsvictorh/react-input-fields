@@ -28,8 +28,9 @@ class InputCheckbox extends Component{
     	e.nativeEvent.stopImmediatePropagation();
 
     	if(e.key === ' ' || e.key === 'Enter'){
+    		const { onChange } = this.props;
     		e.target.previousSibling.checked = !e.target.previousSibling.checked;
-    		this.props.onChange(e.target.previousSibling.checked);
+    		onChange(e.target.previousSibling.checked);
     	}
 	}
 

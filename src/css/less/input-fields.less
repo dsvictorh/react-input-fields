@@ -100,6 +100,21 @@
 			});
 		}
 
+		.caret{
+			position: absolute;
+			right: 8px;
+			height: 100%;
+			font-size: 1.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.awesome-icon('\f0d7');
+
+			&.open{
+				.awesome-icon('\f0d8');
+			}
+		}
+
 		.options{
 			position: absolute;
 			cursor: pointer;
@@ -109,6 +124,9 @@
 			background: @color-white;
 			border-radius: 4px;
 			box-sizing: border-box;
+			z-index: 10;
+			max-height: 250px;
+			overflow: auto;
 
 			div{
 				font-size: 1.5rem;
@@ -245,19 +263,25 @@
 }
 
 //Datepicker customization
-body .react-datepicker__tether-element-attached-bottom.react-datepicker__tether-element{
-	margin-top: 0;
-}
+body{
+	.react-datepicker__tether-element{
+		z-index: 10;
+	}
 
-body .react-datepicker__current-month{
-	font-size: 1.4rem;
-}
+	.react-datepicker__tether-element-attached-bottom.react-datepicker__tether-element{
+		margin-top: 0;
+	}
 
-body .react-datepicker__day-name, body .react-datepicker__day{
-	width: 4rem;
-	line-height: 4rem;
-}
+	.react-datepicker__current-month{
+		font-size: 1.4rem;
+	}
 
-body .react-datepicker{
-	font-size: 1.5rem;
+	.react-datepicker__day-name, .react-datepicker__day{
+		width: 4rem;
+		line-height: 4rem;
+	}
+
+	.react-datepicker{
+		font-size: 1.5rem;
+	}
 }

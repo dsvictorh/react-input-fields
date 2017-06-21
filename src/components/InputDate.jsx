@@ -102,8 +102,9 @@ class InputDate extends Component{
 	}
 
 	onChangeRaw = (e) => {
+		const { format } = this.props;
 		this.setState({text: e.target.value });
-		this.onChange(moment(e.target.value, this.props.format, true));
+		this.onChange(moment(e.target.value, format, true));
 	}
 
 	render(){
@@ -120,6 +121,11 @@ class InputDate extends Component{
 			errors,
 			warnings,
 		} = this.props;
+
+		const {
+			text
+		} = this.state;
+
 		const date = moment(value, format, true);
 
 		if(!hide){
@@ -130,11 +136,11 @@ class InputDate extends Component{
 						{required &&  <i className="required">*</i>}
 					</label>
 					<DatePicker
-						customInput={<InputDateCustomInput inputId={inputId} disabled={disabled} value={this.state.text} onChange={(e) => this.setState({text: e.target.value})} />}
+						customInput={<InputDateCustomInput inputId={inputId} disabled={disabled} value={text} onChange={(e) => this.setState({text: e.target.value})} />}
 						dateFormat={format}
 						disabled={disabled}
 						selected={date.isValid() ? date : null}
-						value={this.state.text}
+						value={text}
 						onChange={(date) => this.onChange(date)}
 						onChangeRaw={this.onChangeRaw}
 						popoverAttachment="bottom left"

@@ -35,7 +35,8 @@ class InputDropdown extends Component{
 	}
 
 	componentDidMount() {
-		var dropdown = document.getElementById(this.props.inputId);
+		const { inputId } = this.props;
+		const dropdown = document.getElementById(inputId);
 		this.setState({ displayValue: dropdown.options[dropdown.selectedIndex].text });
 	}
 
@@ -47,10 +48,81 @@ class InputDropdown extends Component{
 	}
 
 
-	changeSelectOption = (value, text) => {
-		document.getElementById(this.props.inputId).value = value;
-		this.setState({ displayValue: text, open: false });
-		this.props.onChange(value);
+	changeSelectOption = (value, displayValue, open) => {
+		const { inputId, onChange } = this.props;
+		const dropdown = document.getElementById(inputId);
+		this.setState({ displayValue, open });
+		document.querySelector(`#${inputId}-select input`).focus();
+		if(dropdown.value.toString() !== value.toString()){
+			dropdown.value = value;
+			onChange(value);
+		}
+	}
+
+	moveSelectOption = (forward, open) => {
+		const { values, value, valueKey, labelKey, required } = this.props;
+		const currentIndex = values.map(function(item) {
+			return item[valueKey].toString();
+		}).indexOf(value.toString());
+
+		if(forward){
+			if(currentIndex > -1 && currentIndex < values.length - 1){
+				const nextValue = values[currentIndex + 1];
+				this.changeSelectOption(nextValue[valueKey], nextValue[labelKey], open);
+				return true;
+			}else if(value === '' && !required){
+				const nextValue = values[0];
+				this.changeSelectOption(nextValue[valueKey], nextValue[labelKey], open);
+				return true;
+			}
+		}else{
+			if(currentIndex > 0){
+				const previousValue = values[currentIndex - 1];
+				this.changeSelectOption(previousValue[valueKey], previousValue[labelKey], open);
+				return true;
+			}else if(currentIndex === 0 && !required){
+				this.changeSelectOption('', '', open);
+				return true;
+			}			
+		}
+
+		return false;
+	} 
+
+	handleOptionsKeys = (e) => {
+		const { inputId } = this.props;
+		switch(e.key){
+			case 'Enter':
+			case 'Tab':
+			case ' ':
+				e.preventDefault();
+				document.querySelector(`#${inputId}-select input`).focus();
+			 	this.setState({ open: false });
+			 	break;
+			case 'ArrowUp':
+				if(this.moveSelectOption(false, true)){
+					e.target.previousSibling.focus();
+				}
+				break;
+			case 'ArrowDown':
+				if(this.moveSelectOption(true, true)){
+					e.target.nextSibling.focus();
+				}
+				break;
+			default:
+				e.preventDefault();
+				break;
+		}
+		
+	}
+
+	handleOptionsBlur = (e) => {
+		setTimeout(() => {
+			const { inputId } = this.props;
+			if(!document.querySelector(`#${inputId}-select .options :focus, #${inputId}-select input:focus`)){
+				this.setState({ open: false});
+			}
+		}, 1);
 	}
 
 	render(){
@@ -68,56 +140,80 @@ class InputDropdown extends Component{
 			halfField,
 			errors,
 			warnings,
-		} = this.props
+		} = this.props;
+
+		const {
+			open,
+			displayValue
+		} = this.state;
 
 		if(!hide){
 			return(
 				<div className={`input-field ${panel ? 'shadow' : ''} ${halfField ? 'half ' + halfField : ''}`}>
-					<label htmlFor={inputId}>
+					<label htmlFor={`${inputId}-select`}>
 						{label}
 						{required &&  <i className="required">*</i>}
 					</label>
 					<div id={`${inputId}-select`} className={`select ${disabled ? 'disabled' : ''}`}>
+						<i className={`caret ${open ? 'open' : ''}`}></i>
 						<input 
 							type="text" 
-							value={this.state.displayValue} 
+							value={displayValue} 
 							disabled={disabled}
 							className={this.state.open ? 'focus' : ''}
+							onKeyDown={(e) => {
+								switch(e.key){
+									case 'Enter':
+									case ' ':
+										e.preventDefault();
+										this.setState({ open: !open });
+										break;
+									case 'ArrowUp':
+										this.moveSelectOption(false, false);
+										break;
+									case 'ArrowDown':
+										this.moveSelectOption(true, false);
+										break;
+									case 'Tab':
+										break;
+									default:
+										e.preventDefault();
+									break;
+								}
+							}}
 							onClick={(e) =>{
-								this.setState({ open: !this.state.open });
+								this.setState({ open: !open });
 							}} 
 						/>
 						{
-							this.state.open &&
+							open &&
 							<div className="options">
 								{
 									!required &&
 									<div 
 										tabIndex="0" 
-										onClick={(e) => this.changeSelectOption('', '')}
+										data-value=""
+										className={value === '' ? 'selected' : ''} 
+										onClick={(e) => this.changeSelectOption('', '', false)}
+										onKeyDown={this.handleOptionsKeys}
+										onBlur={this.handleOptionsBlur}
 									>
+										&nbsp;
 									</div>
 								}
 								{
-									values.map((value, i) => {
+									values.map((item, i) => {
 										return(
 											<div 
 												key={i} 
 												tabIndex="0" 
-												data-value={value[valueKey]}
-												className={this.props.value.toString() === value[valueKey].toString() ? 'selected' : ''} 
-												onClick={(e) => this.changeSelectOption(value[valueKey], value[labelKey])}
-												onBlur={(e) => {
-													setTimeout(() => {
-														if(!document.querySelector(`#${inputId}-select .options :focus, #${inputId}-select input:focus`)){
-															console.log('blur')
-															this.setState({ open: false});
-														}
-													}, 1);
-													
-												}}
+												data-value={item[valueKey]}
+												className={value.toString() === item[valueKey].toString() ? 'selected' : ''} 
+												onClick={(e) => this.changeSelectOption(item[valueKey], item[labelKey], false)}
+												onKeyDown={this.handleOptionsKeys}
+												onBlur={this.handleOptionsBlur}
 											>
-												{value[labelKey]}
+												{item[labelKey]}
 											</div>
 										)
 									})
@@ -137,9 +233,9 @@ class InputDropdown extends Component{
 							!required && <option value=""></option>
 						}
 						{
-							values.map((value, i) => {
+							values.map((item, i) => {
 								return(
-									<option key={i} value={value[valueKey]}>{value[labelKey]}</option>
+									<option key={i} value={item[valueKey]}>{item[labelKey]}</option>
 								)
 							})
 						}

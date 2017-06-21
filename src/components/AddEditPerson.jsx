@@ -36,7 +36,8 @@ class AddEditPerson extends Component{
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(this.props.person !== nextProps.person){
+		const { person } = this.props;
+		if(person !== nextProps.person){
 			const { name, lastName, gender, active, birthdate } = nextProps.person;
 			this.setState({ name, lastName, gender, active, birthdate });
 		}
@@ -82,10 +83,11 @@ class AddEditPerson extends Component{
 			this.setState({ loading: true });
 			setTimeout(() => {
 				const { name, lastName, gender, active, birthdate } = this.state;
-				const { id } = this.props.person;
+				const { person } = this.props;
+				const { id } = person;
 				this.props.setPerson({ id, name, lastName, active, gender: parseInt(gender, 10), birthdate });
 				this.setState({ loading: false });
-				this.props.onSubmit(this.props.person);
+				this.props.onSubmit(person);
 				this.resetForm();
 			}, 1000)
 		}
@@ -99,6 +101,16 @@ class AddEditPerson extends Component{
 			removeErrors,
 			onCancel
 		} = this.props;
+
+		const {
+			name,
+			lastName,
+			gender,
+			active,
+			birthdate,
+			loading
+		} = this.state;
+
 		return(
 			<div>
 				<form onSubmit={(e) => this.submitForm(e)}>
@@ -106,7 +118,7 @@ class AddEditPerson extends Component{
 						inputId={'name'} 
 						label={'Name'} 
 						maxLength={50} 
-						value={this.state.name}
+						value={name}
 						halfField={'left'}
 						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
 						errors={errors['name']}
@@ -115,7 +127,7 @@ class AddEditPerson extends Component{
 						inputId={'last-name'} 
 						label={'Last Name'} 
 						maxLength={50} 
-						value={this.state.lastName}
+						value={lastName}
 						halfField={'right'}
 						onChange={(value) => {  this.setState({ lastName: value }); removeErrors('lastName'); }}
 						errors={errors['lastName']}
@@ -123,7 +135,7 @@ class AddEditPerson extends Component{
 					<InputFields.InputDropdown
 						inputId={'gender'} 
 						label={'Gender'} 
-						value={this.state.gender}
+						value={gender}
 						required={true}
 						values={[{value: 0, label: 'Male'}, {value: 1, label: 'Female'}]}
 						onChange={(value) => {  this.setState({ gender: value }); removeErrors('gender'); }}
@@ -133,14 +145,14 @@ class AddEditPerson extends Component{
 						inputId={'active'} 
 						label={'Active'} 
 						tooltip={'Whether this person is active or not'}
-						value={this.state.active}
+						value={active}
 						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
 						errors={errors['active']}
 					 />
 					 <InputFields.InputDate
 						inputId={'birth-date'} 
 						label={'Date of Birth'} 
-						value={this.state.birthdate}
+						value={birthdate}
 						format={'MM/DD/YYYY'}
 						onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
 						errors={errors['birthdate']}
@@ -149,12 +161,12 @@ class AddEditPerson extends Component{
 						type={'submit'} 
 						text={'Submit'} 
 						loadingText={'Please wait'} 
-						loading={this.state.loading} 
+						loading={loading} 
 					/>
 					<InputFields.InputButton 
 						text={'Cancel'} 
 						className={'danger'} 
-						disabled={this.state.loading} 
+						disabled={loading} 
 						onClick={() => {this.resetForm(true); onCancel(AddEditPerson.personDefault);} } 
 					/>
 				</form>

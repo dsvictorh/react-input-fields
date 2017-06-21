@@ -27,10 +27,12 @@ class App extends Component{
 	}
 
 	render(){
+		const { person } = this.state;
+
 		return(
 			<div>
-				<AddEditPerson person={this.state.person} onSubmit={this.resetPerson} onCancel={this.resetPerson} />
-				<PersonList edit={this.setPerson} edittingPerson={this.state.person} remove={this.removePerson} />
+				<AddEditPerson person={person} onSubmit={this.resetPerson} onCancel={this.resetPerson} />
+				<PersonList edit={this.setPerson} edittingPerson={person} remove={this.removePerson} />
 			</div>
 		)
 	}
