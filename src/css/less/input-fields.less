@@ -2,10 +2,12 @@
 
 .input-field{
 	padding: 5px;
-	margin-bottom: 10px;
+	margin:0 2.5px 10px;
 	box-sizing: border-box;
 	font-size: 0;
 	border-radius: 2px;
+	display: inline-block;
+    vertical-align: top;
 	.user-select(none);
 
 	&:hover{
@@ -18,27 +20,73 @@
 		box-shadow: 5px 5px 14px -5px fade(@color-black, 60%);  
 	}
 
-	&.half{
-        display: inline-block;
-        vertical-align: top;
-        width: 100%;
+	&.size-10{
+		.media-for(768px, {
+			width: ~'calc(100% - 5px)';
+		});
+	}
 
+	&.size-9{
+		.media-for(768px, {
+			width: ~'calc(90% - 5px)';
+		});
+	}
+
+
+	&.size-8{
+		.media-for(768px, {
+			width: ~'calc(80% - 5px)';
+		});
+	}
+
+	&.size-7{
+		.media-for(768px, {
+			width: ~'calc(70% - 5px)';
+		});
+	}
+
+	&.size-6{
+		.media-for(768px, {
+			width: ~'calc(60% - 5px)';
+		});
+	}
+
+	&.size-5{
 		.media-for(768px, {
 			width: ~'calc(50% - 5px)';
 		});
-        
-        &.left{
-			.media-for(768px, {
-				margin-right: 5px;
-			});
-        }
+	}
 
-        &.right{
-			.media-for(768px, {
-				margin-left: 5px;
-			});
-        }
-    }
+	&.size-4{
+		.media-for(768px, {
+			width: ~'calc(40% - 5px)';
+		});
+	}
+
+	/*Special for three column layouts*/
+	&.size-33{
+		.media-for(768px, {
+			width: ~'calc(33.33% - 5px)';
+		});
+	}
+
+	&.size-3{
+		.media-for(768px, {
+			width: ~'calc(30% - 5px)';
+		});
+	}
+
+	&.size-2{
+		.media-for(768px, {
+			width: ~'calc(20% - 5px)';
+		});
+	}
+
+	&.size-1{
+		.media-for(768px, {
+			width: ~'calc(10% - 5px)';
+		});
+	}
 
 	&:last-child{
 		margin-bottom: 0;
@@ -49,6 +97,7 @@
 		margin-bottom: 5px;
 		cursor: pointer;
 		font-size: 1.6rem;
+		position: relative;
 
 		&:hover{
 			+ input:not([type="checkbox"]), textarea, + .select input{
@@ -60,6 +109,7 @@
 			vertical-align: super;
 			font-size: 1.2rem;
 			color: @color-danger;
+			position: absolute;
 		}
 	}
 
@@ -108,6 +158,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			cursor: pointer;
 			.awesome-icon('\f0d7');
 
 			&.open{

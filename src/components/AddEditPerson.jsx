@@ -119,7 +119,7 @@ class AddEditPerson extends Component{
 						label={'Name'} 
 						maxLength={50} 
 						value={name}
-						halfField={'left'}
+						size={5}
 						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
 						errors={errors['name']}
 					/>
@@ -128,48 +128,409 @@ class AddEditPerson extends Component{
 						label={'Last Name'} 
 						maxLength={50} 
 						value={lastName}
-						halfField={'right'}
+						size={5}
 						onChange={(value) => {  this.setState({ lastName: value }); removeErrors('lastName'); }}
 						errors={errors['lastName']}
 					/>
-					<InputFields.InputDropdown
+				 	<InputFields.InputDropdown
 						inputId={'gender'} 
 						label={'Gender'} 
 						value={gender}
 						required={true}
+						size={5}
 						values={[{value: 0, label: 'Male'}, {value: 1, label: 'Female'}]}
 						onChange={(value) => {  this.setState({ gender: value }); removeErrors('gender'); }}
 						errors={errors['gender']}
 					 />
-					 <InputFields.InputCheckbox
-						inputId={'active'} 
-						label={'Active'} 
-						tooltip={'Whether this person is active or not'}
-						value={active}
-						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
-						errors={errors['active']}
-					 />
-					 <InputFields.InputDate
+				 	<InputFields.InputDate
 						inputId={'birth-date'} 
 						label={'Date of Birth'} 
 						value={birthdate}
+						size={5}
 						format={'MM/DD/YYYY'}
 						onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
 						errors={errors['birthdate']}
 					/>
-					<InputFields.InputButton 
-						type={'submit'} 
-						text={'Submit'} 
-						loadingText={'Please wait'} 
-						loading={loading} 
+					<InputFields.InputCheckbox
+						inputId={'active'} 
+						label={'Active'} 
+						tooltip={'Whether this person is active or not'}
+						value={active}
+						size={5}
+						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
+						errors={errors['active']}
+				 	/>
+					<div>
+						<InputFields.InputButton 
+							type={'submit'} 
+							text={'Submit'} 
+							loadingText={'Please wait'} 
+							loading={loading} 
+						/>
+						<InputFields.InputButton 
+							text={'Cancel'} 
+							className={'danger'} 
+							disabled={loading} 
+							onClick={() => {this.resetForm(true); onCancel(AddEditPerson.personDefault);} } 
 					/>
-					<InputFields.InputButton 
-						text={'Cancel'} 
-						className={'danger'} 
-						disabled={loading} 
-						onClick={() => {this.resetForm(true); onCancel(AddEditPerson.personDefault);} } 
-					/>
+					</div>
 				</form>
+				<div>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={10}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+					inputId={'name'} 
+					label={'Name'} 
+					maxLength={50} 
+					value={name}
+					size={9}
+					onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+					errors={errors['name']}
+				/>
+				<InputFields.InputDropdown
+						inputId={'gender'} 
+						label={'Gender'} 
+						value={gender}
+						required={true}
+						size={1}
+						values={[{value: 0, label: 'Male'}, {value: 1, label: 'Female'}]}
+						onChange={(value) => {  this.setState({ gender: value }); removeErrors('gender'); }}
+						errors={errors['gender']}
+			 	/>
+				<InputFields.InputDropdown
+						inputId={'gender'} 
+						label={'Gender'} 
+						value={gender}
+						required={true}
+						size={8}
+						values={[{value: 0, label: 'Male'}, {value: 1, label: 'Female'}]}
+						onChange={(value) => {  this.setState({ gender: value }); removeErrors('gender'); }}
+						errors={errors['gender']}
+			 	/>
+				<InputFields.InputDropdown
+						inputId={'gender'} 
+						label={'Gender'} 
+						value={gender}
+						required={true}
+						size={2}
+						values={[{value: 0, label: 'Male'}, {value: 1, label: 'Female'}]}
+						onChange={(value) => {  this.setState({ gender: value }); removeErrors('gender'); }}
+						errors={errors['gender']}
+			 	/>
+				<InputFields.InputCheckbox
+						inputId={'active'} 
+						label={'Active'} 
+						tooltip={'Whether this person is active or not'}
+						value={active}
+						size={7}
+						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
+						errors={errors['active']}
+				/>
+				<InputFields.InputCheckbox
+						inputId={'active'} 
+						label={'Active'} 
+						tooltip={'Whether this person is active or not'}
+						value={active}
+						size={3}
+						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
+						errors={errors['active']}
+				/>
+				<InputFields.InputCheckbox
+						inputId={'active'} 
+						label={'Active'} 
+						tooltip={'Whether this person is active or not'}
+						value={active}
+						size={6}
+						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
+						errors={errors['active']}
+				/>
+				<InputFields.InputCheckbox
+						inputId={'active'} 
+						label={'Active'} 
+						tooltip={'Whether this person is active or not'}
+						value={active}
+						size={4}
+						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
+						errors={errors['active']}
+				/>
+				<InputFields.InputDate
+					inputId={'birth-date'} 
+					label={'Date of Birth'} 
+					value={birthdate}
+					size={5}
+					format={'MM/DD/YYYY'}
+					onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
+					errors={errors['birthdate']}
+				/>
+				<InputFields.InputDate
+					inputId={'birth-date'} 
+					label={'Date of Birth'} 
+					value={birthdate}
+					size={5}
+					format={'MM/DD/YYYY'}
+					onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
+					errors={errors['birthdate']}
+				/>
+				<InputFields.InputDate
+					inputId={'birth-date'} 
+					label={'Date of Birth'} 
+					value={birthdate}
+					size={4}
+					format={'MM/DD/YYYY'}
+					onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
+					errors={errors['birthdate']}
+				/>
+				<InputFields.InputDate
+					inputId={'birth-date'} 
+					label={'Date of Birth'} 
+					value={birthdate}
+					size={6}
+					format={'MM/DD/YYYY'}
+					onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
+					errors={errors['birthdate']}
+				/>
+				<InputFields.InputDate
+					inputId={'birth-date'} 
+					label={'Date of Birth'} 
+					value={birthdate}
+					size={3}
+					format={'MM/DD/YYYY'}
+					onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
+					errors={errors['birthdate']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={7}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={2}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={8}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={9}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={6}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={4}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={1}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={2}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={2}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={2}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={2}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={2}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={33}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={33}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+				<InputFields.InputText
+						inputId={'name'} 
+						label={'Name'} 
+						maxLength={50} 
+						value={name}
+						size={33}
+						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
+						errors={errors['name']}
+				/>
+			</div>
 			</div>
 		)
 	}

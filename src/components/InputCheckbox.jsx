@@ -6,12 +6,12 @@ class InputCheckbox extends Component{
 		inputId: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired,
+		size: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 33]).isRequired,
 		tooltip: PropTypes.string,
 		value: PropTypes.bool,
 		hide: PropTypes.bool,
 		disabled: PropTypes.bool,
 		panel: PropTypes.bool,
-		halfField: PropTypes.oneOf(['left', 'right']),
 		errors: PropTypes.arrayOf(PropTypes.string),
 		warnings: PropTypes.arrayOf(PropTypes.string)
 	}
@@ -44,14 +44,14 @@ class InputCheckbox extends Component{
 			hide, 
 			disabled,
 			panel,
-			halfField,
+			size,
 			errors,
 			warnings,
 		} = this.props
 
 		if(!hide){
 			return(
-				<div className={`input-field ${panel ? 'shadow' : ''} ${halfField ? 'half ' + halfField : ''}`}>
+				<div className={`input-field ${panel ? 'shadow' : ''} ${size ? 'size-' + size : ''}`}>
 					<input 
 						type="checkbox"
 						disabled={disabled}

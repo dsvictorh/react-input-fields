@@ -56,7 +56,7 @@ class InputDate extends Component{
 		disabled: PropTypes.bool,
 		required: PropTypes.bool,
 		panel: PropTypes.bool,
-		halfField: PropTypes.oneOf(['left', 'right']),
+		size: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 33]).isRequired,
 		errors: PropTypes.arrayOf(PropTypes.string),
 		warnings: PropTypes.arrayOf(PropTypes.string)
 	}
@@ -117,7 +117,7 @@ class InputDate extends Component{
 			disabled,
 			required,
 			panel,
-			halfField,
+			size,
 			errors,
 			warnings,
 		} = this.props;
@@ -130,7 +130,7 @@ class InputDate extends Component{
 
 		if(!hide){
 			return(
-				<div className={`input-field ${panel ? 'shadow' : ''} ${halfField ? 'half ' + halfField : ''}`}>
+				<div className={`input-field ${panel ? 'shadow' : ''} ${size ? 'size-' + size : ''}`}>
 					<label htmlFor={inputId}>
 						{label}
 						{required &&  <i className="required">*</i>}

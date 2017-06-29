@@ -15,6 +15,7 @@ class InputDropdown extends Component{
 		label: PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired,
 		values: PropTypes.arrayOf(PropTypes.object).isRequired,
+		size: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 33]).isRequired,
 		valueKey: PropTypes.string,
 		labelKey: PropTypes.string,
 		value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -22,7 +23,6 @@ class InputDropdown extends Component{
 		disabled: PropTypes.bool,
 		required: PropTypes.bool,
 		panel: PropTypes.bool,
-		halfField: PropTypes.oneOf(['left', 'right']),
 		errors: PropTypes.arrayOf(PropTypes.string),
 		warnings: PropTypes.arrayOf(PropTypes.string)
 	}
@@ -121,8 +121,9 @@ class InputDropdown extends Component{
 			const { inputId } = this.props;
 			if(!document.querySelector(`#${inputId}-select .options :focus, #${inputId}-select input:focus`)){
 				this.setState({ open: false});
+				console.log('close');
 			}
-		}, 1);
+		}, 100);
 	}
 
 	render(){
@@ -137,7 +138,7 @@ class InputDropdown extends Component{
 			disabled,
 			required,
 			panel,
-			halfField,
+			size,
 			errors,
 			warnings,
 		} = this.props;
@@ -149,13 +150,21 @@ class InputDropdown extends Component{
 
 		if(!hide){
 			return(
-				<div className={`input-field ${panel ? 'shadow' : ''} ${halfField ? 'half ' + halfField : ''}`}>
+				<div className={`input-field ${panel ? 'shadow' : ''} ${size ? 'size-' + size : ''}`}>
 					<label htmlFor={`${inputId}-select`}>
 						{label}
 						{required &&  <i className="required">*</i>}
 					</label>
 					<div id={`${inputId}-select`} className={`select ${disabled ? 'disabled' : ''}`}>
-						<i className={`caret ${open ? 'open' : ''}`}></i>
+						<i 
+							className={`caret ${open ? 'open' : ''}`}
+							onClick={(e) =>{
+								document.querySelector(`#${inputId}-select input`).focus();
+								setTimeout(() => this.setState({ open: !open }), 1);
+								console.log('caret');
+							}}
+						>
+						</i>
 						<input 
 							type="text" 
 							value={displayValue} 
@@ -183,6 +192,7 @@ class InputDropdown extends Component{
 							}}
 							onClick={(e) =>{
 								this.setState({ open: !open });
+								console.log('clicked input');
 							}} 
 						/>
 						{

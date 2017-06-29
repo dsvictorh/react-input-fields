@@ -6,13 +6,13 @@ class InputText extends Component{
 		inputId: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired,
+		size: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 33]).isRequired,
 		value: PropTypes.string,
 		hide: PropTypes.bool,
 		disabled: PropTypes.bool,
 		required: PropTypes.bool,
 		panel: PropTypes.bool,
 		isPassword: PropTypes.bool,
-		halfField: PropTypes.oneOf(['left', 'right']),
 		maxLength: PropTypes.number,
 		errors: PropTypes.arrayOf(PropTypes.string),
 		warnings: PropTypes.arrayOf(PropTypes.string)
@@ -34,7 +34,7 @@ class InputText extends Component{
 			required,
 			panel,
 			isPassword,
-			halfField,
+			size,
 			maxLength,
 			errors,
 			warnings,
@@ -42,7 +42,7 @@ class InputText extends Component{
 
 		if(!hide){
 			return(
-				<div className={`input-field ${panel ? 'shadow' : ''} ${halfField ? 'half ' + halfField : ''}`}>
+				<div className={`input-field ${panel ? 'shadow' : ''} ${size ? 'size-' + size : ''}`}>
 					<label htmlFor={inputId}>
 						{label}
 						{required &&  <i className="required">*</i>}
