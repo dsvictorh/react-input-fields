@@ -10,61 +10,61 @@
     vertical-align: top;
 	.user-select(none);
 
-	&:hover{
-		input:not([type="checkbox"]), textarea, select{
-			
-		}
-	}
-
 	&.shadow{
 		box-shadow: 5px 5px 14px -5px fade(@color-black, 60%);  
 	}
 
-	&.size-10{
+	&.size-12{
 		.media-for(768px, {
 			width: ~'calc(100% - 5px)';
 		});
 	}
 
+	&.size-11{
+		.media-for(768px, {
+			width: ~'calc(91.66% - 5px)';
+		});
+	}
+
+
+	&.size-10{
+		.media-for(768px, {
+			width: ~'calc(83.33% - 5px)';
+		});
+	}
+
 	&.size-9{
 		.media-for(768px, {
-			width: ~'calc(90% - 5px)';
+			width: ~'calc(75% - 5px)';
 		});
 	}
 
 
 	&.size-8{
 		.media-for(768px, {
-			width: ~'calc(80% - 5px)';
+			width: ~'calc(66.66% - 5px)';
 		});
 	}
 
 	&.size-7{
 		.media-for(768px, {
-			width: ~'calc(70% - 5px)';
+			width: ~'calc(58.33% - 5px)';
 		});
 	}
 
 	&.size-6{
 		.media-for(768px, {
-			width: ~'calc(60% - 5px)';
+			width: ~'calc(50% - 5px)';
 		});
 	}
 
 	&.size-5{
 		.media-for(768px, {
-			width: ~'calc(50% - 5px)';
+			width: ~'calc(41.66% - 5px)';
 		});
 	}
 
 	&.size-4{
-		.media-for(768px, {
-			width: ~'calc(40% - 5px)';
-		});
-	}
-
-	/*Special for three column layouts*/
-	&.size-33{
 		.media-for(768px, {
 			width: ~'calc(33.33% - 5px)';
 		});
@@ -72,19 +72,19 @@
 
 	&.size-3{
 		.media-for(768px, {
-			width: ~'calc(30% - 5px)';
+			width: ~'calc(25% - 5px)';
 		});
 	}
 
 	&.size-2{
 		.media-for(768px, {
-			width: ~'calc(20% - 5px)';
+			width: ~'calc(16.66% - 5px)';
 		});
 	}
 
 	&.size-1{
 		.media-for(768px, {
-			width: ~'calc(10% - 5px)';
+			width: ~'calc(8.33% - 5px)';
 		});
 	}
 
@@ -100,7 +100,7 @@
 		position: relative;
 
 		&:hover{
-			+ input:not([type="checkbox"]), textarea, + .select input{
+			+ input:not([type="checkbox"]), + textarea, + .select input{
 				border-color: @color-success;
 			}
 		}
@@ -133,6 +133,15 @@
 			opacity: 0.7;
 			cursor: not-allowed;	
 			.user-select(none);
+		}
+	}
+
+	textarea{
+		min-height: 150px;
+		resize: none;
+
+		&.resize{
+			resize: vertical;
 		}
 	}
 
@@ -248,7 +257,7 @@
 				height: 1.6rem;
 				font-size: 1.4rem;
 				background: @color-white;
-				border-radius: 2px;
+				border-radius: 4px;
 				margin: 0 5px -1px 0;
 				border: solid 1px fade(@color-black, 20%);
 				vertical-align: bottom;
@@ -315,6 +324,14 @@
 
 //Datepicker customization
 body{
+	.react-datepicker__header{
+		padding-top: 4px;
+	}
+
+	.react-datepicker__header__dropdown{
+		padding-bottom: 4px;
+	}
+
 	.react-datepicker__tether-element{
 		z-index: 10;
 	}
@@ -324,15 +341,20 @@ body{
 	}
 
 	.react-datepicker__current-month{
-		font-size: 1.4rem;
+		display: none;
 	}
 
 	.react-datepicker__day-name, .react-datepicker__day{
-		width: 4rem;
-		line-height: 4rem;
+		width: 3.2rem;
+		line-height: 2.2rem;
+	}
+
+	.react-datepicker__day-name{
+		font-size: 1.3rem;
+		line-height: 2rem;
 	}
 
 	.react-datepicker{
-		font-size: 1.5rem;
+		font-size: 1.4rem;
 	}
 }

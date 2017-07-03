@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 
+import InputFieldsBase from './InputFieldsBase';
 
 class InputDateCustomInput extends Component{
 	static propTypes = {
@@ -47,23 +48,13 @@ class InputDate extends Component{
 	}
 
 	static propTypes = {
-		inputId: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
 		format: PropTypes.string.isRequired,
-		onChange: PropTypes.func.isRequired,
 		value: PropTypes.instanceOf(Date),
-		hide: PropTypes.bool,
-		disabled: PropTypes.bool,
-		required: PropTypes.bool,
-		panel: PropTypes.bool,
-		size: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 33]).isRequired,
-		errors: PropTypes.arrayOf(PropTypes.string),
-		warnings: PropTypes.arrayOf(PropTypes.string)
+		...InputFieldsBase.getPropTypes()
 	}
 
 	static defaultProps = {
-		errors: [],
-		warnings: [],
+		...InputFieldsBase.getDefaultProps()
 	}
 
 	componentWillMount() {
@@ -110,16 +101,9 @@ class InputDate extends Component{
 	render(){
 		const {
 			inputId,
-			label,
 			format,
 			value,
-			hide, 
-			disabled,
-			required,
-			panel,
-			size,
-			errors,
-			warnings,
+			disabled
 		} = this.props;
 
 		const {
@@ -128,51 +112,23 @@ class InputDate extends Component{
 
 		const date = moment(value, format, true);
 
-		if(!hide){
-			return(
-				<div className={`input-field ${panel ? 'shadow' : ''} ${size ? 'size-' + size : ''}`}>
-					<label htmlFor={inputId}>
-						{label}
-						{required &&  <i className="required">*</i>}
-					</label>
-					<DatePicker
-						customInput={<InputDateCustomInput inputId={inputId} disabled={disabled} value={text} onChange={(e) => this.setState({text: e.target.value})} />}
-						dateFormat={format}
-						disabled={disabled}
-						selected={date.isValid() ? date : null}
-						value={text}
-						onChange={(date) => this.onChange(date)}
-						onChangeRaw={this.onChangeRaw}
-						popoverAttachment="bottom left"
-					    popoverTargetAttachment="top left"
-					    popoverTargetOffset="10px 0px"
-					    showMonthDropdown
-					    showYearDropdown
-					    dropdownMode="select"
-					/>
-					<div className="warnings">
-						{
-							warnings.map((warning, i) => {
-								return (
-									<p key={i}>{warning}</p>
-								)
-							})
-						}
-					</div>
-					<div className="errors">
-						{
-							errors.map((error, i) => {
-								return (
-									<p key={i}>{error}</p>
-								)
-							})
-						}
-					</div>
-				</div>
-			)
-		}else{
-			return null;
-		}
+		return InputFieldsBase.renderInputField((
+			<DatePicker
+				customInput={<InputDateCustomInput inputId={inputId} disabled={disabled} value={text} onChange={(e) => this.setState({text: e.target.value})} />}
+				dateFormat={format}
+				disabled={disabled}
+				selected={date.isValid() ? date : null}
+				value={text}
+				onChange={(date) => this.onChange(date)}
+				onChangeRaw={this.onChangeRaw}
+				popoverAttachment="bottom left"
+			    popoverTargetAttachment="top left"
+			    popoverTargetOffset="5% 0px"
+			    showMonthDropdown
+			    showYearDropdown
+			    dropdownMode="select"
+			/>
+		), this.props, true)
 	}
 }
 

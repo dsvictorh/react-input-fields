@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import InputFieldsBase from './InputFieldsBase';
 
-class InputText extends Component{
+class InputTextArea extends Component{
 	static propTypes = {
 		value: PropTypes.string,
 		hide: PropTypes.bool,
-		isPassword: PropTypes.bool,
 		maxLength: PropTypes.number,
+		verticalResize: PropTypes.bool,
 		...InputFieldsBase.getPropTypes()
 	}
 
@@ -22,22 +22,23 @@ class InputText extends Component{
 			onChange,
 			value, 
 			disabled,
-			isPassword,
 			maxLength,
+			verticalResize
 		} = this.props
 
 		return InputFieldsBase.renderInputField((
-			<input 
-				type={isPassword ? 'password' : 'text'}
+			<textarea 
+				className={verticalResize ? 'resize' : ''}
 				disabled={disabled}
 				maxLength={maxLength}
-				name={inputId}
+				name={inputId} 
 				id={inputId}
 				onChange={(e) => { onChange(e.target.value); }}
 				value={value || ''}
-			/>
+			>
+			</textarea>
 		), this.props, true)
 	}
 }
 
-export default InputText;
+export default InputTextArea;

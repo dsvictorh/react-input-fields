@@ -1,26 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import InputFieldsBase from './InputFieldsBase';
+
 class InputCheckbox extends Component{
 	static propTypes = {
-		inputId: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-		onChange: PropTypes.func.isRequired,
-		size: PropTypes.oneOf([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 33]).isRequired,
 		tooltip: PropTypes.string,
 		value: PropTypes.bool,
-		hide: PropTypes.bool,
-		disabled: PropTypes.bool,
-		panel: PropTypes.bool,
-		errors: PropTypes.arrayOf(PropTypes.string),
-		warnings: PropTypes.arrayOf(PropTypes.string)
+		...InputFieldsBase.getPropTypes()
 	}
 
 	static defaultProps = {
-		errors: [],
-		warnings: [],
 		valueKey: 'value',
-		labelKey: 'label'
+		labelKey: 'label',
+		...InputFieldsBase.getDefaultProps()
 	}
 
 	handleKeyUp = (e) => {
@@ -41,56 +34,29 @@ class InputCheckbox extends Component{
 			onChange,
 			tooltip,
 			value,
-			hide, 
-			disabled,
-			panel,
-			size,
-			errors,
-			warnings,
+			disabled
 		} = this.props
 
-		if(!hide){
-			return(
-				<div className={`input-field ${panel ? 'shadow' : ''} ${size ? 'size-' + size : ''}`}>
-					<input 
-						type="checkbox"
-						disabled={disabled}
-						name={inputId}
-						id={inputId}
-						onChange={(e) => { onChange(e.target.checked); }}
-						checked={value || false}
-					/>
-					<label 
-						htmlFor={inputId} 
-						title={tooltip} 
-						tabIndex="0"
-						onKeyUp={this.handleKeyUp}>
-							<i></i>
-							{label}
-					</label>
-					<div className="warnings">
-						{
-							warnings.map((warning, i) => {
-								return (
-									<p key={i}>{warning}</p>
-								)
-							})
-						}
-					</div>
-					<div className="errors">
-						{
-							errors.map((error, i) => {
-								return (
-									<p key={i}>{error}</p>
-								)
-							})
-						}
-					</div>
-				</div>
-			)
-		}else{
-			return null;
-		}
+		return InputFieldsBase.renderInputField((
+			<div>
+				<input 
+					type="checkbox"
+					disabled={disabled}
+					name={inputId}
+					id={inputId}
+					onChange={(e) => { onChange(e.target.checked); }}
+					checked={value || false}
+				/>
+				<label 
+					htmlFor={inputId} 
+					title={tooltip} 
+					tabIndex="0"
+					onKeyUp={this.handleKeyUp}>
+						<i></i>
+						{label}
+				</label>
+			</div>
+		), this.props)
 	}
 }
 

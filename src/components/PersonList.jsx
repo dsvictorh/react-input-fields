@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import personActions from '../actions/persons';
-import InputFields from './InputFields';
+import vTools from './vTools';
 
 class PersonList extends Component{
 	static propTypes = {
@@ -37,11 +37,12 @@ class PersonList extends Component{
 									<p>{person.gender ? 'Female' : 'Male'}</p>
 									<p>{person.active ? 'Active' : 'Inactive'}</p>
 									<p>{moment(person.birthdate).format('MMMM Do, YYYY')}</p>
+									<p>{person.description}</p>
 									{
-										edit && <InputFields.InputButton text={'Edit'} onClick={() => edit(person)}  />
+										edit && <vTools.InputButton text={'Edit'} onClick={() => edit(person)}  />
 									}
 									{
-										remove && <InputFields.InputButton disabled={edittingPerson && edittingPerson.id === person.id} text={'Delete'} onClick={() => remove(person.id)}  />
+										remove && <vTools.InputButton disabled={edittingPerson && edittingPerson.id === person.id} text={'Delete'} onClick={() => remove(person.id)}  />
 									}
 								</li>
 							)

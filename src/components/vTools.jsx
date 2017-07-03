@@ -4,13 +4,15 @@ import InputButton from './InputButton';
 import InputDropdown from './InputDropdown';
 import InputCheckbox from './InputCheckbox';
 import InputDate from './InputDate';
+import InputTextArea from './InputTextArea';
 
 export default { 
 	InputText, 
 	InputButton, 
 	InputDropdown, 
 	InputCheckbox, 
-	InputDate 
+	InputDate,
+	InputTextArea 
 };
 
 /* FORCE CHANGE EVENT
