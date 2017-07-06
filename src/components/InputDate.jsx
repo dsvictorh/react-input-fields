@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
+import InputMask from 'react-input-mask';
 import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -8,6 +9,7 @@ import InputFieldsBase from './InputFieldsBase';
 
 class InputDateCustomInput extends Component{
 	static propTypes = {
+		format: PropTypes.string.isRequired,
 		inputId: PropTypes.string.isRequired,
 		onChange: PropTypes.func.isRequired,
 		onClick: PropTypes.func,
@@ -15,8 +17,29 @@ class InputDateCustomInput extends Component{
 		value: PropTypes.string,
 	}
 
+	formatMask = (dateFormat) => {
+		let maskFormat = '';
+		let letterArray = dateFormat.split('');
+		for(let letter of letterArray){
+			switch(letter.toLowerCase()){
+				case 'd':
+				case 'm':
+				case 'y':
+				case 'h':
+				case 's':
+					maskFormat += '9';
+					break;
+				default:
+					maskFormat += letter;
+			}
+		}
+
+		return maskFormat;
+	}
+
 	render(){
 		const {
+			format,
 			inputId,
 			onChange,
 			onClick,
@@ -25,7 +48,7 @@ class InputDateCustomInput extends Component{
 		} = this.props;
 
 		return(
-			<input 
+			<InputMask 
 				type="text"
 				disabled={disabled}
 				id={inputId}
@@ -33,6 +56,7 @@ class InputDateCustomInput extends Component{
 				onClick={onClick}
 				value={value}
 				onChange={onChange}
+				mask={this.formatMask(format)}
 			/>
 		)
 	}	
@@ -41,6 +65,7 @@ class InputDateCustomInput extends Component{
 class InputDate extends Component{
 	constructor(props) {
 		super(props);
+		this.lockUpdate = false;
 		this.state = {
 			text: '',
 			updateDate: false,
@@ -62,7 +87,9 @@ class InputDate extends Component{
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(this.props.value !== nextProps.value){
+		const { value } = this.props;
+
+		if(value !== nextProps.value){
 			this.setState({updateDate: true});
 		}
 	}
@@ -77,24 +104,32 @@ class InputDate extends Component{
 			value
 		} = props;
 
-		if(init || state.updateDate){
+		const {
+			updateDate
+		} = state;
+
+		if(init || (updateDate && !this.lockUpdate)){
 			const date = moment(value, format, true);
 			this.setState({
 				text: date.isValid() ? date.format(format) : '',
 				updateDate: false,
 			});
+		}else if(this.lockUpdate){
+			this.lockUpdate = false;
+			this.setState({ updateDate: false });
 		}
 	}
 
 	onChange = (date) => {
-		if(!date || date.isValid()){
-			this.props.onChange(date ? date.toDate() : null);
+		if(date){
+			this.props.onChange(date.isValid() ? date.toDate() : null);
 		}
 	}
 
 	onChangeRaw = (e) => {
 		const { format } = this.props;
-		this.setState({text: e.target.value });
+		this.lockUpdate = true;
+		this.setState({text: e.target.value});
 		this.onChange(moment(e.target.value, format, true));
 	}
 
@@ -114,7 +149,7 @@ class InputDate extends Component{
 
 		return InputFieldsBase.renderInputField((
 			<DatePicker
-				customInput={<InputDateCustomInput inputId={inputId} disabled={disabled} value={text} onChange={(e) => this.setState({text: e.target.value})} />}
+				customInput={<InputDateCustomInput inputId={inputId} disabled={disabled} format={format} value={text} onChange={(e) => { this.setState({text: e.target.value}) }} />}
 				dateFormat={format}
 				disabled={disabled}
 				selected={date.isValid() ? date : null}
