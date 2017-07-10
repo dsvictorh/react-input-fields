@@ -38,7 +38,7 @@ class InputCheckbox extends Component{
 		} = this.props
 
 		return InputFieldsBase.renderInputField((
-			<div>
+			<div className="input-checkbox">
 				<input 
 					type="checkbox"
 					disabled={disabled}
@@ -51,7 +51,9 @@ class InputCheckbox extends Component{
 					htmlFor={inputId} 
 					title={tooltip} 
 					tabIndex="0"
-					onKeyUp={this.handleKeyUp}>
+					onClick={(e) => e.target.blur() }
+					onKeyUp={this.handleKeyUp}
+				>
 						<i></i>
 						{label}
 				</label>

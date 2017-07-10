@@ -5,6 +5,7 @@ import InputDropdown from './InputDropdown';
 import InputCheckbox from './InputCheckbox';
 import InputDate from './InputDate';
 import InputTextArea from './InputTextArea';
+import InputRadioButton from './InputRadioButton';
 
 export default { 
 	InputText, 
@@ -12,7 +13,8 @@ export default {
 	InputDropdown, 
 	InputCheckbox, 
 	InputDate,
-	InputTextArea 
+	InputTextArea,
+	InputRadioButton
 };
 
 /* FORCE CHANGE EVENT

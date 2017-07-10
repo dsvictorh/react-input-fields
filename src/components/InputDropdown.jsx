@@ -32,9 +32,32 @@ class InputDropdown extends Component{
 		this.setState({ displayValue: dropdown.options[dropdown.selectedIndex].text });
 	}
 
+	componentWillUpdate(nextProps, nextState) {
+		const {
+			values,
+			value,
+			valueKey,
+			labelKey,
+		} = nextProps;
+
+		if(value !== this.props.value){
+			const chosen = values.find((item) => item[valueKey].toString() === value.toString());
+			if(chosen){
+				this.changeSelectOption(chosen[valueKey], chosen[labelKey], nextState.open);
+			}
+		}
+	}
+
 	componentDidUpdate(prevProps, prevState) {
-		if(this.state.open && !prevState.open){
-			const { inputId, value } = this.props;
+		const {
+			open
+		} = this.state;
+
+		if(open && !prevState.open){
+			const {
+				value,
+				inputId, 
+			} = this.props;
 			document.querySelector(`#${inputId}-select .options [data-value="${value}"]`).focus();
 		}
 	}
@@ -43,10 +66,11 @@ class InputDropdown extends Component{
 	changeSelectOption = (value, displayValue, open) => {
 		const { inputId, onChange } = this.props;
 		const dropdown = document.getElementById(inputId);
-		this.setState({ displayValue, open });
+		this.setState({ open });
 		document.querySelector(`#${inputId}-select input`).focus();
 		if(dropdown.value.toString() !== value.toString()){
-			dropdown.value = value;
+			this.setState({ displayValue});
+			dropdown.value =  value;
 			onChange(value);
 		}
 	}
@@ -113,9 +137,8 @@ class InputDropdown extends Component{
 			const { inputId } = this.props;
 			if(!document.querySelector(`#${inputId}-select .options :focus, #${inputId}-select input:focus`)){
 				this.setState({ open: false});
-				console.log('close');
 			}
-		}, 100);
+		}, 50);
 	}
 
 	render(){
@@ -142,7 +165,6 @@ class InputDropdown extends Component{
 						onClick={(e) =>{
 							document.querySelector(`#${inputId}-select input`).focus();
 							setTimeout(() => this.setState({ open: !open }), 1);
-							console.log('caret');
 						}}
 					>
 					</i>
@@ -173,7 +195,6 @@ class InputDropdown extends Component{
 						}}
 						onClick={(e) =>{
 							this.setState({ open: !open });
-							console.log('clicked input');
 						}} 
 					/>
 					{
@@ -193,10 +214,10 @@ class InputDropdown extends Component{
 								</div>
 							}
 							{
-								values.map((item, i) => {
+								values.map((item) => {
 									return(
 										<div 
-											key={i} 
+											key={item[valueKey]} 
 											tabIndex="0" 
 											data-value={item[valueKey]}
 											className={value.toString() === item[valueKey].toString() ? 'selected' : ''} 

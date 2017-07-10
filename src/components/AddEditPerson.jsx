@@ -122,6 +122,15 @@ class AddEditPerson extends Component{
 						onChange={(value) => {  this.setState({ name: value }); removeErrors('name'); }}
 						errors={errors['name']}
 					/>
+					<vTools.InputCheckbox
+						inputId={'active'} 
+						label={'Active'} 
+						tooltip={'Whether this person is active or not'}
+						value={active}
+						size={6}
+						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
+						errors={errors['active']}
+				 	/>
 					<vTools.InputText
 						inputId={'last-name'} 
 						label={'Last Name'} 
@@ -141,7 +150,7 @@ class AddEditPerson extends Component{
 						onChange={(value) => {  this.setState({ gender: value }); removeErrors('gender'); }}
 						errors={errors['gender']}
 					 />
-				 	<vTools.InputDate
+					 <vTools.InputDate
 						inputId={'birth-date'} 
 						label={'Date of Birth'} 
 						value={birthdate}
@@ -150,15 +159,16 @@ class AddEditPerson extends Component{
 						onChange={(value) => { this.setState({ birthdate: value }); removeErrors('birthdate'); }}
 						errors={errors['birthdate']}
 					/>
-					<vTools.InputCheckbox
-						inputId={'active'} 
-						label={'Active'} 
-						tooltip={'Whether this person is active or not'}
-						value={active}
-						size={5}
-						onChange={(value) => {  this.setState({ active: value });  removeErrors('active'); }}
-						errors={errors['active']}
-				 	/>
+					 <vTools.InputRadioButton
+						inputId={'gender'} 
+						label={'Gender'} 
+						value={gender}
+						size={6}
+						values={[{value: 0, label: 'Male'}, {value: 1, label: 'Female'}]}
+						onChange={(value) => {  this.setState({ gender: value }); removeErrors('gender'); }}
+						errors={errors['gender']}
+					 />
+					 
 				 	<vTools.InputTextArea
 						inputId={'description'} 
 						label={'Description'} 

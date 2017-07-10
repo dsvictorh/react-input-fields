@@ -8,6 +8,8 @@
 	border-radius: 2px;
 	display: inline-block;
     vertical-align: top;
+    position: relative;
+    width: ~'calc(100% - 5px)';
 	.user-select(none);
 
 	&.shadow{
@@ -192,7 +194,7 @@
 				font-size: 1.5rem;
 				padding: 5px;
 				box-sizing: border-box;
-				@transition: background 0.2s linear, color 0.2s linear;
+				@transition: background 0.15s linear, color 0.15s linear;
 				.transition(@transition);
 
 				&:hover, &:focus{
@@ -220,7 +222,11 @@
 
 			&:hover, &:focus{
 				i{
+					color: fade(@color-success, 50%);
 					border-color: @color-success;
+					.awesome-icon('\f00c', {
+						vertical-align: middle;
+					});
 				}
 			}	
 		}
@@ -228,17 +234,17 @@
 		&:checked:not(:disabled) + label{
 			i{
 				color: @color-success;
-				border-color: @color-success;
 				.awesome-icon('\f00c', {
 					vertical-align: middle;
 				});
+
+				@transition: border-color 0.15s linear, color 0.15s linear;
+				.transition(@transition);
 			}
 
 			&:hover{
 				i{
-					color: @color-danger;
-					border-color: @color-danger;
-					.awesome-icon('\f00d');
+					color: @color-success;
 				}
 			}
 
@@ -251,7 +257,16 @@
 		}
 
 		+ label{
+			.media-for(768px, {
+				margin: 0;
+			});
+
+			.radio{
+				border-radius: 50%;
+			}
+
 			i{
+				color: @color-success;
 				display: inline-block;
 				width: 1.6rem;
 				height: 1.6rem;
@@ -262,8 +277,7 @@
 				border: solid 1px fade(@color-black, 20%);
 				vertical-align: bottom;
 				text-align: center;
-				@transition: border-color 0.15s linear, color 0.25s linear;
-				.transition(@transition);
+				.transition(border-color 0.15s linear);
 			}
 		}
 	}
@@ -288,6 +302,27 @@
 		display: block;
 		position: static;
 	}
+}
+
+.input-radio{
+	.media-for(768px, {
+		margin-top: 11px;
+	});
+
+	> div{
+		display: inline-block;
+		margin-right: 5px;
+	}
+
+	input[type="radio"]{
+		display: none;
+	}
+}
+
+.input-checkbox{
+	.media-for(768px, {
+		margin-top: ~'calc(1.6rem + 11px)';
+	});
 }
 
 .input-button{
