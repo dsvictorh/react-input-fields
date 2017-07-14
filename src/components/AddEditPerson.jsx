@@ -30,6 +30,7 @@ class AddEditPerson extends Component{
 		name: '',
 		lastName: '',
 		gender: '0',
+		role: 1,
 		active: false,
 		birthdate: new Date(),
 		loading: false,
@@ -39,8 +40,8 @@ class AddEditPerson extends Component{
 	componentWillReceiveProps(nextProps) {
 		const { person } = this.props;
 		if(person !== nextProps.person){
-			const { name, lastName, gender, active, birthdate, description } = nextProps.person;
-			this.setState({ name, lastName, gender, active, birthdate, description });
+			const { name, lastName, gender, active, birthdate, description, role } = nextProps.person;
+			this.setState({ name, lastName, gender, active, birthdate, description, role });
 		}
 	}
 
@@ -50,6 +51,7 @@ class AddEditPerson extends Component{
 				...AddEditPerson.personDefault
 			});
 			this.props.removeErrors('name');
+			this.props.removeErrors('role');
 			this.props.removeErrors('lastName');
 			this.props.removeErrors('birthdate');
 			this.props.removeErrors('description');
@@ -68,6 +70,11 @@ class AddEditPerson extends Component{
 			valid = false;
 		}
 
+		if(!this.state.role){
+			this.props.addErrors('role', ['Role is required']);
+			valid = false;
+		}
+
 		if(!this.state.birthdate){
 			this.props.addErrors('birthdate', ['Date of Birth is required']);
 			valid = false;
@@ -80,10 +87,10 @@ class AddEditPerson extends Component{
 		if(valid){
 			this.setState({ loading: true });
 			setTimeout(() => {
-				const { name, lastName, gender, active, birthdate, description } = this.state;
+				const { name, lastName, gender, active, birthdate, description, role } = this.state;
 				const { person } = this.props;
 				const { id } = person;
-				this.props.setPerson({ id, name, lastName, active, gender: parseInt(gender, 10), birthdate, description });
+				this.props.setPerson({ id, name, lastName, active, gender: parseInt(gender, 10), birthdate, description, role });
 				this.setState({ loading: false });
 				this.props.onSubmit(person);
 				this.resetForm();
@@ -107,7 +114,8 @@ class AddEditPerson extends Component{
 			active,
 			birthdate,
 			description,
-			loading
+			loading,
+			role
 		} = this.state;
 
 		return(
@@ -149,6 +157,35 @@ class AddEditPerson extends Component{
 						values={[{value: 0, label: 'Male'}, {value: 1, label: 'Female'}]}
 						onChange={(value) => {  this.setState({ gender: value }); removeErrors('gender'); }}
 						errors={errors['gender']}
+					 />
+					 <vTools.InputAutocomplete
+						inputId={'role'} 
+						label={'Role'} 
+						value={role}
+						required={true}
+						size={6}
+						searchFunction={(search) => {
+							const roles = [
+								{ label: 'Admin', value: 1 },
+								{ label: 'Support', value: 2 },
+								{ label: 'Dev', value: 3},
+								{ label: 'Client', value: 4},
+								{ label: 'Constrcutor', value: 5},
+								{ label: 'Advertising', value: 6},
+								{ label: 'Accountancy', value: 7 }
+							];
+
+							console.log('Create Promise');
+							return new Promise((resolve, reject) => {
+								const filteredRoles = roles.filter((item) => item.label.toLowerCase().includes(search.toLowerCase()));
+								console.log('promise started', filteredRoles);
+
+								setTimeout(() => {  resolve(filteredRoles); }, 1000);
+								
+							});
+						}}
+						onChange={(value) => {  this.setState({ role: value }); removeErrors('role'); }}
+						errors={errors['role']}
 					 />
 					 <vTools.InputDate
 						inputId={'birth-date'} 

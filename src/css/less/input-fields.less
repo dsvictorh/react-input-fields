@@ -150,15 +150,18 @@
 	.select{
 		position: relative;
 
-		input{
-			cursor: pointer;
-			color: transparent;
-			text-shadow: 0 0 0 @color-black;
-			.user-select(none);
-			.selection({
-				background: @color-white;
+		&:not(.autocomplete){
+			input{
+				cursor: pointer;
 				color: transparent;
-			});
+				text-shadow: 0 0 0 @color-black;
+				.user-select(none);
+				.selection({
+					background: @color-white;
+					color: transparent;
+				});
+			}
+			
 		}
 
 		.caret{
@@ -306,7 +309,7 @@
 
 .input-radio{
 	.media-for(768px, {
-		margin-top: 11px;
+		margin-top: 10px;
 	});
 
 	> div{
@@ -321,7 +324,7 @@
 
 .input-checkbox{
 	.media-for(768px, {
-		margin-top: ~'calc(1.6rem + 11px)';
+		margin-top: ~'calc(1.6rem + 10px)';
 	});
 }
 

@@ -6,6 +6,7 @@ import InputCheckbox from './InputCheckbox';
 import InputDate from './InputDate';
 import InputTextArea from './InputTextArea';
 import InputRadioButton from './InputRadioButton';
+import InputAutocomplete from './InputAutocomplete';
 
 export default { 
 	InputText, 
@@ -14,7 +15,8 @@ export default {
 	InputCheckbox, 
 	InputDate,
 	InputTextArea,
-	InputRadioButton
+	InputRadioButton,
+	InputAutocomplete
 };
 
 /* FORCE CHANGE EVENT
