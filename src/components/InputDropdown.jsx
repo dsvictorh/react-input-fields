@@ -138,7 +138,7 @@ class InputDropdown extends Component{
 			if(!document.querySelector(`#${inputId}-select .options :focus, #${inputId}-select input:focus`)){
 				this.setState({ open: false});
 			}
-		}, 50);
+		}, 1);
 	}
 
 	render(){

@@ -38,6 +38,7 @@ class PersonList extends Component{
 									<p>{person.active ? 'Active' : 'Inactive'}</p>
 									<p>{moment(person.birthdate).format('MMMM Do, YYYY')}</p>
 									<p>{person.description}</p>
+									<p>{person.role.label}</p>
 									{
 										edit && <vTools.InputButton text={'Edit'} onClick={() => edit(person)}  />
 									}

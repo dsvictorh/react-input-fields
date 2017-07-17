@@ -6,6 +6,16 @@ import errorActions from '../actions/errors';
 import personActions from '../actions/persons';
 import vTools from './vTools';
 
+const roles = [
+	{ label: 'Admin', value: 1 },
+	{ label: 'Support', value: 2 },
+	{ label: 'Dev', value: 3},
+	{ label: 'Client', value: 4},
+	{ label: 'Constrcutor', value: 5},
+	{ label: 'Advertising', value: 6},
+	{ label: 'Accountancy', value: 7}
+];
+
 class AddEditPerson extends Component{
 	constructor(props) {
 		super(props);
@@ -30,7 +40,7 @@ class AddEditPerson extends Component{
 		name: '',
 		lastName: '',
 		gender: '0',
-		role: 1,
+		role: null,
 		active: false,
 		birthdate: new Date(),
 		loading: false,
@@ -162,26 +172,14 @@ class AddEditPerson extends Component{
 						inputId={'role'} 
 						label={'Role'} 
 						value={role}
+						searchKeyStructure={['label']}
+						valueKeyStructure={['value']}
 						required={true}
 						size={6}
 						searchFunction={(search) => {
-							const roles = [
-								{ label: 'Admin', value: 1 },
-								{ label: 'Support', value: 2 },
-								{ label: 'Dev', value: 3},
-								{ label: 'Client', value: 4},
-								{ label: 'Constrcutor', value: 5},
-								{ label: 'Advertising', value: 6},
-								{ label: 'Accountancy', value: 7 }
-							];
-
-							console.log('Create Promise');
 							return new Promise((resolve, reject) => {
 								const filteredRoles = roles.filter((item) => item.label.toLowerCase().includes(search.toLowerCase()));
-								console.log('promise started', filteredRoles);
-
-								setTimeout(() => {  resolve(filteredRoles); }, 1000);
-								
+								resolve(filteredRoles);
 							});
 						}}
 						onChange={(value) => {  this.setState({ role: value }); removeErrors('role'); }}

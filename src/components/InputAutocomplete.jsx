@@ -11,6 +11,7 @@ class InputAutocomplete extends Component{
 			open: false,
 			searching: false,
 			results: [],
+			timeout: null
 		}	
 	}
 
@@ -18,8 +19,7 @@ class InputAutocomplete extends Component{
 		searchFunction: PropTypes.func.isRequired,
         resultsKeyStructure: PropTypes.arrayOf(PropTypes.string),
 		searchKeyStructure: PropTypes.arrayOf(PropTypes.string),
-		valueKeyStructure: PropTypes.arrayOf(PropTypes.string),
-		value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
+		value: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.number]),
 		searchLength: PropTypes.number,
 		hide: PropTypes.bool,
 		...InputFieldsBase.getPropTypes()
@@ -27,19 +27,41 @@ class InputAutocomplete extends Component{
 
 	static defaultProps = {
 		resultsKeyStructure: [],
-		valueKeyStructure: ['value'],
-		searchKeyStructure: ['label'],
+		searchKeyStructure: [],
 		searchLength: 1,
 		...InputFieldsBase.getDefaultProps()
 	}
 
-	getProperty = (obj, propertyStructure) => {
-	 	for(var prop of propertyStructure){
-			if(obj.hasOwnProperty(prop)){
-				obj = obj[prop];
+	componentWillMount() {
+		const { 
+			value,
+			searchKeyStructure,
+			inputId
+		} = this.props;
+
+		if(typeof value === 'object'){
+			if(!searchKeyStructure.length){
+				console.warning(`InputAutocomplete with inputId ${inputId} has value property of type object but no searchKeyStructure for display property has been supplied. Component might misbehave`);
 			}
 		}
+	}	
 
+	componentWillReceiveProps(nextProps) {
+		const { value, searchKeyStructure } = this.props;
+		if(nextProps.value !== value){
+			this.setState({ displayValue: this.getProperty(nextProps.value, searchKeyStructure) || '' });
+		}
+	}
+
+	getProperty = (obj, propertyStructure) => {
+		if(obj){
+			for(var prop of propertyStructure){
+				if(obj.hasOwnProperty(prop)){
+					obj = obj[prop];
+				}
+			}
+		}
+	 	
 		return obj;
 	}
 
@@ -48,67 +70,102 @@ class InputAutocomplete extends Component{
 			searchFunction, 
 			resultsKeyStructure, 
 			searchLength,
-			onChange
+			onChange,
+			inputId
 		} = this.props;
 
-		console.log('changed');
-		this.setState({ displayValue });
-		onChange(null);
-		if(!searchLength || displayValue.length >= searchLength){
-			console.log('searching');
-			this.setState({ searching: true, open: true });
-			searchFunction(displayValue).then((response) => {
-				console.log('found', response);
-				this.setState({ open: true, searching: false, results: this.getProperty(response, resultsKeyStructure) || [] });
-			},
-			function(error){
+		const {
+			timeout
+		} = this.state;
+		
+		setTimeout(() => { 
+			onChange(null); 
+			this.setState({ displayValue }) 
+		}, 1);
 
-			});
+		if(timeout){
+			clearTimeout(timeout);
+			this.setState({ timeout: null});
+		}
+
+		if(!searchLength || displayValue.length >= searchLength){
+			this.setState({ timeout: setTimeout(() => {
+				const promise = searchFunction(displayValue);
+				this.setState({ searching: true });
+				if(promise instanceof Promise){
+					promise.then((response) => {
+						const results = this.getProperty(response, resultsKeyStructure) || [];
+						this.setState({ open: results.length, searching: false, results });
+					},
+					function(error){
+
+					});
+				}else{
+					console.error(`Property "searchFunction" provided to InputAutocomplete with inputId ${inputId} is not isntance of Promise`);
+				}
+			}, 500)});
+		}else{
+			this.setState({ searching: false, results: [] });
 		}
 	}
 
 	handleBlur = (e) => {
 		setTimeout(() => {
-			const { inputId } = this.props;
+			const { inputId, value } = this.props;
 			if(!document.querySelector(`#${inputId}-autocomplete .options :focus, #${inputId}-autocomplete input:focus`)){
 				this.setState({ open: false});
-			}
-		}, 50);
+
+				if(!value){
+					this.setState({ displayValue: '' });
+				}
+			}			
+		}, 1);
 	}
 
 	handleSearchKeys = (e) => {
 		const { inputId } = this.props;
+		const { results } = this.state;
 		switch(e.key){
 			case 'ArrowUp':
 				e.preventDefault();
-				this.setState({ open: false});
+				this.setState({ open: false, results: [] });
 				break;
 			case 'ArrowDown':
 				e.preventDefault();
-				document.querySelector(`#${inputId}-autocomplete .options:first-child`).focus();
+				if(results.length){
+					document.querySelector(`#${inputId}-autocomplete .options :first-child`).focus();
+				}
 				break;
 			default:
 				break;
 		}
 	}
 
-	handleOptionsKeys = (e) => {
+	handleOptionsKeys = (e, item) => {
 		const { inputId } = this.props;
+
+		
 		switch(e.key){
 			case 'Enter':
 			case 'Tab':
 			case ' ':
 				e.preventDefault();
+				this.changeSelectOption(item, false);
 				document.querySelector(`#${inputId}-autocomplete input`).focus();
-			 	this.setState({ open: false });
 			 	break;
+			case 'Escape':
+				this.setState({ open: false});
+				document.querySelector(`#${inputId}-autocomplete input`).focus();
+				break;
 			case 'ArrowUp':
-				if(this.moveSelectOption(false)){
+				if(e.target.previousSibling){
 					e.target.previousSibling.focus();
+				}else{
+					document.querySelector(`#${inputId}-autocomplete input`).focus();
 				}
 				break;
 			case 'ArrowDown':
-				if(this.moveSelectOption(true)){
+				if(e.target.nextSibling){
 					e.target.nextSibling.focus();
 				}
 				break;
@@ -119,46 +176,20 @@ class InputAutocomplete extends Component{
 	}
 
 	changeSelectOption = (item, open) => {
-		const { inputId, onChange, value, valueKeyStructure, searchKeyStructure } = this.props;
-		const itemValue = this.getProperty(item, valueKeyStructure);
+		const {
+		 inputId, 
+		 onChange,
+		} = this.props;
+
+		onChange(item);
 		this.setState({ open });
 		document.querySelector(`#${inputId}-autocomplete input`).focus();
-		if(itemValue.toString() !== value.toString()){
-			this.setState({ displayValue: this.getProperty(item, searchKeyStructure) });
-			onChange(itemValue);
-		}
 	}
-
-	moveSelectOption = (forward) => {
-		const { value, valueKeyStructure } = this.props;
-		const { results } = this.state;
-		const currentIndex = results.map(function(item) {
-			return this.getProperty(item, valueKeyStructure).toString();
-		}).indexOf(value.toString());
-
-		if(forward){
-			if(currentIndex < results.length - 1){
-				const nextValue = results[currentIndex + 1];
-				this.changeSelectOption(nextValue, true);
-				return true;
-			}
-		}else{
-			if(currentIndex > 0){
-				const previousValue = results[currentIndex - 1];
-				this.changeSelectOption(previousValue, true);
-				return true;
-			}		
-		}
-
-		return false;
-	} 
 
 	render(){
 		const {
 			inputId,
 			searchKeyStructure,
-			valueKeyStructure,
-			value, 
 			disabled,
 		} = this.props;
 
@@ -183,7 +214,7 @@ class InputAutocomplete extends Component{
 						value={displayValue || ''}
 					/>
 					{
-						(open && !searching) &&
+						(open && results.length) &&
 						<div className="options">
 							{
 								results.map((item, i) => {
@@ -191,9 +222,8 @@ class InputAutocomplete extends Component{
 										<div 
 											key={i} 
 											tabIndex="0" 
-											className={value && value.toString() ===  this.getProperty(item, valueKeyStructure).toString() ? 'selected' : ''} 
 											onClick={(e) => this.changeSelectOption(item)}
-											onKeyDown={this.handleOptionsKeys}
+											onKeyDown={(e) => this.handleOptionsKeys(e, item)}
 											onBlur={this.handleBlur}
 										>
 											{this.getProperty(item, searchKeyStructure)}

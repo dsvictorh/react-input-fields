@@ -41,7 +41,7 @@ class InputFieldsBase{
 				<div className={`input-field ${panel ? 'shadow' : ''} ${size ? 'size-' + size : ''}`}>
 					{
 						withLabel &&
-						<label htmlFor={`${inputId}-select`}>
+						<label htmlFor={`${inputId}`}>
 							{label}
 							{required &&  <i className="required">*</i>}
 						</label>
