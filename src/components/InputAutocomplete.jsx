@@ -94,8 +94,12 @@ class InputAutocomplete extends Component{
 				this.setState({ searching: true });
 				if(promise instanceof Promise){
 					promise.then((response) => {
-						const results = this.getProperty(response, resultsKeyStructure) || [];
-						this.setState({ open: results.length, searching: false, results });
+						if(document.querySelector(`#${inputId}-autocomplete .options :focus, #${inputId}-autocomplete input:focus`)){
+							const results = this.getProperty(response, resultsKeyStructure) || [];
+							this.setState({ open: results.length, results });
+						}
+
+						this.setState({ searching: false });
 					},
 					function(error){
 
@@ -202,7 +206,7 @@ class InputAutocomplete extends Component{
 
 		return InputFieldsBase.renderInputField((
 			<div>
-				<div id={`${inputId}-autocomplete`} className="select autocomplete">
+				<div id={`${inputId}-autocomplete`} className={`select autocomplete ${searching ? 'searching' : ''}`}>
 					<input 
 						type="text"
 						disabled={disabled}

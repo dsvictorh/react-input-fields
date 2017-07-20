@@ -164,6 +164,33 @@
 			
 		}
 
+		&.autocomplete{
+			&.searching{
+				.awesome-icon('\f110', {
+					font-size: 2rem;
+					height: 2rem;
+					width: 2rem;
+				    position: absolute;
+				    top: ~'calc(50% - 1rem)';
+				    right: 3px;
+				    color: @color-info;
+				    display: block;
+
+					.animation(
+						spin,
+						@duration: 0.8s,
+						@iterationCount: infinite,
+						@fillMode: forward,
+						@timingFunction: steps(10)
+					)
+				})
+			}
+
+			input{
+				padding-right: 3rem;
+			}
+		}
+
 		.caret{
 			position: absolute;
 			right: 8px;
